@@ -1,14 +1,22 @@
 var game;
+
+var stars = new Array();
+var starAmount = 3;
+
 var activeStars;
 var neededColors;
 var starsShowing;
 
-function StarManager(currentGame) {
-	generateStars();
+function StarManager(currentGame, starLayer) {
+	game = currentGame;
+	generateStars(starLayer);
 }
 
-function generateStars() {
-	
+function generateStars(starLayer) {
+	for(var i = 0; i < starAmount; i++) {
+		var newStar = new Star(starLayer);
+		stars.push(newStar);
+	}
 }
 
 StarManager.prototype.spawnStars = function () {

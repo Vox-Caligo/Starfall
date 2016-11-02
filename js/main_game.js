@@ -15,6 +15,9 @@ var buttons = new Array();
 // colors clicked
 var clickedColors = new Array();
 
+// star manager
+var starManager;
+
 function preload() {
 	// add visual layers
 	backgroundImages = game.add.group();
@@ -41,6 +44,7 @@ function create() {
 	background.width = game.width;
 	game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	
+	starManager = new StarManager(game, foregroundImages);
 	createButtons();
 }
 
@@ -68,11 +72,12 @@ function createButtons() {
 	for(var i = 0; i < buttons.length; i++) {
 		buttons[i].height = buttonHeight;
 		buttons[i].width = buttonWidth;
-		buttons[i].visible = false;
+		//buttons[i].visible = false;
 	}
 }
 
 function selectedButton(button) {
+	console.log('Color Selected: ' + button.name);
 	clickedColors.push(button.name);
 	
 	if(clickedColors == 3) {
