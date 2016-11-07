@@ -14,7 +14,7 @@ function StarManager(currentGame, starLayer) {
 
 function generateStars(starLayer) {
 	for(var i = 0; i < starAmount; i++) {
-		var newStar = new Star(starLayer);
+		var newStar = new Star(game, starLayer);
 		stars.push(newStar);
 	}
 }

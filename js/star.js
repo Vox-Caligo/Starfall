@@ -1,14 +1,19 @@
 var game;
 var starImage;
-var starLayer;
 
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
 
-function Star(layer) {
-	starLayer = layer;
-	starImage = starLayer.create(0, 0, starChoices[0]);
-	starImage.x = 100;
+function Star(currentGame, layer) {
+	game = currentGame;
+	
+	starImage = layer.create(200, 200, starChoices[game.rnd.integerInRange(0, starChoices.length)]);
+	starImage.anchor.setTo(.5, .5);
+	
+	var starScale = game.rnd.integerInRange(50, 100) / 100;
+	starImage.scale.setTo(starScale, starScale);
+	starImage.x = game.rnd.integerInRange(0, 500);
 	starImage.y = 100;
+	console.log('Hit');
 }
 
 Star.prototype.generateNewStar = function () {

@@ -4,10 +4,10 @@ var game = new Phaser.Game(window.screen.width, 800, Phaser.AUTO, '', { preload:
 var spawnFloor = screen.height - (.3 * screen.height);
 
 // visual layers 
-var background;
-var midground;
-var foreground;
-var hud;
+var backgroundLayer;
+var midgroundLayer;
+var foregroundLayer;
+var hudLayer;
 
 // buttons
 var buttons = new Array();
@@ -20,10 +20,10 @@ var starManager;
 
 function preload() {
 	// add visual layers
-	backgroundImages = game.add.group();
-	midgroundImages = game.add.group();
-	foregroundImages = game.add.group();
-	hudImages = game.add.group();
+	backgroundLayer = game.add.group();
+	midgroundLayer = game.add.group();
+	foregroundLayer = game.add.group();
+	hudLayer = game.add.group();
 
 	game.load.image('background', 'assets/background/background.jpg');
 	
@@ -39,12 +39,13 @@ function preload() {
 }
 
 function create() {
-	var background = game.add.sprite(0, 0, 'background');
+	var background = backgroundLayer.create(0, 0, 'background');
+	//.add.sprite(0, 0, 'background');
 	background.height = game.height;
 	background.width = game.width;
 	game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	
-	starManager = new StarManager(game, foregroundImages);
+	starManager = new StarManager(game, foregroundLayer);
 	createButtons();
 }
 
