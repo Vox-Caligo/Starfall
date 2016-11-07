@@ -13,7 +13,6 @@ function Star(currentGame, layer) {
 	starImage.scale.setTo(starScale, starScale);
 	starImage.x = game.rnd.integerInRange(0, 500);
 	starImage.y = 100;
-	console.log('Hit');
 }
 
 Star.prototype.generateNewStar = function () {
