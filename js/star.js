@@ -1,5 +1,5 @@
 var game;
-var starImage;
+
 
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
 
@@ -10,8 +10,10 @@ var yVelocity;
 
 function Star(currentGame, layer) {
 	game = currentGame;
+	var starImage;
+	var starColor;
 	
-	var starColor = starChoices[game.rnd.integerInRange(0, starChoices.length)];
+	starColor = starChoices[game.rnd.integerInRange(0, starChoices.length)];
 	console.log('Test: ' + starColor);
 	starImage = layer.create(200, 200, starColor);
 	starImage.anchor.setTo(.5, .5);
@@ -25,6 +27,10 @@ function Star(currentGame, layer) {
 		game.time.events.add(0, starMovement, this);
 	}
 	
+	var removeStar = function() {
+		console.log('Poof ' + starColor);
+		starImage.visible = false;
+	}
 	game.time.events.add(Phaser.Timer.SECOND * 3, removeStar, this);
 }
 
@@ -36,10 +42,7 @@ function starMovement() {
 	
 }
 
-function removeStar() {
-	console.log('Poof');
-	this.starImage.visible = false;
-}
+
 
 /*
 - timer for amount of time the star is shown
