@@ -1,7 +1,5 @@
 var game;
 
-var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
-
 // layer variables
 var starLayer;
 
@@ -9,19 +7,20 @@ var starLayer;
 var movingStar = true;
 var xVelocity;
 var yVelocity;
+var starColor;
 
 // active variables
 var minTimeActive = 1;
 var maxTimeActive = 3;
 
-function Star(currentGame, layer) {
+function Star(currentGame, layer, starColor) {
 	game = currentGame;
 	starLayer = layer;
 	starCreation();
 }
 
 // creates a star
-function starCreation() {
+function starCreation(starColor) {
 	var starImage;
 	var starColor;
 	
@@ -34,9 +33,10 @@ function starCreation() {
 	starImage.scale.setTo(starScale, starScale);
 	starImage.x = game.rnd.integerInRange(0, 500);
 	starImage.y = 100;
+
 	
 	if(movingStar) {
-		game.time.events.add(0, starMovement, this);
+		game.time.events.add(0, starMovement, this, starImage);
 	}
 	
 	var removeStar = function() {
@@ -47,6 +47,10 @@ function starCreation() {
 
 function starMovement() {
 	
+}
+
+Star.prototype.getStarColor = function () {
+	 return starColor;
 }
 
 Star.prototype.generateNewStar = function () {

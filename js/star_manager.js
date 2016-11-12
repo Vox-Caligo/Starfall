@@ -1,26 +1,32 @@
 var game;
 
+// star variables
 var stars = new Array();
 var starAmount = 13;
 
-var activeStars;
-var neededColors;
-var starsShowing;
+// color variables
+var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
+var neededColors = new Array();
 
-function StarManager(currentGame, starLayer) {
+var activeStars;
+var starsShowing;
+var starLayer;
+
+function StarManager(currentGame, givenStarLayer) {
 	game = currentGame;
+	starLayer = givenStarLayer;
 	
 	// used to create the first group of stars
 	for(var i = 0; i < starAmount; i++) {
-		var newStar = new Star(game, starLayer);
+		var starColor = starChoices[game.rnd.integerInRange(0, starChoices.length - 1)];
+		var newStar = new Star(game, starLayer, starColor);
+		neededColors.push(starColor);
 		stars.push(newStar);
 	}
 }
 
-//
-function generateStars(starLayer) {
-	
-
+function starRemoval(starNumber) {
+	starLayer.remove(stars[starNumber]);
 }
 
 StarManager.prototype.spawnStars = function () {
@@ -32,6 +38,14 @@ StarManager.prototype.spawnStars = function () {
 
 StarManager.prototype.areStarsShowing = function () {
 	return starsShowing;
+}
+
+StarManager.prototype.getNeededColors = function () {	
+	return neededColors;
+}
+
+StarManager.prototype.getStarAmount = function () {
+	return starAmount;
 }
 
 /*

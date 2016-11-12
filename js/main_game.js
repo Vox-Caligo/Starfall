@@ -12,11 +12,9 @@ var hudLayer;
 // buttons
 var buttons = new Array();
 
-// colors clicked
-var clickedColors = new Array();
-
 // star manager
 var starManager;
+var currentStar = 0;
 
 function preload() {
 	// add visual layers
@@ -54,19 +52,19 @@ function createButtons() {
 	var buttonYLoc = game.height - buttonHeight;
 	
 	var button_red = game.add.button(0, buttonYLoc, 'button_red', selectedButton, this, 2, 1, 0);
-	button_red.name = "red";
+	button_red.name = "star_red";
 	buttons.push(button_red);
 	
 	var button_yellow = game.add.button(buttonWidth, buttonYLoc, 'button_yellow', selectedButton, this, 2, 1, 0);
-	button_yellow.name = "yellow";
+	button_yellow.name = "star_yellow";
 	buttons.push(button_yellow);
 	
 	var button_green = game.add.button(buttonWidth * 2, buttonYLoc, 'button_green', selectedButton, this, 2, 1, 0);
-	button_green.name = "green";
+	button_green.name = "star_green";
 	buttons.push(button_green);
 	
 	var button_blue = game.add.button(buttonWidth * 3, buttonYLoc, 'button_blue', selectedButton, this, 2, 1, 0);
-	button_blue.name = "blue";
+	button_blue.name = "star_blue";
 	buttons.push(button_blue);
 	
 	for(var i = 0; i < buttons.length; i++) {
@@ -77,11 +75,18 @@ function createButtons() {
 }
 
 function selectedButton(button) {
-	console.log('Color Selected: ' + button.name);
-	clickedColors.push(button.name);
+	var chosenColor = button.name;
+	var neededColors = starManager.getNeededColors();
 	
-	if(clickedColors == 3) {
+	if(chosenColor != neededColors[currentStar]) {
+		console.log("Incorrect Choice - Was looking for " + neededColors[currentStar]);
+		// end game
+	} else {
+		currentStar++;
 		
+		if(currentStar == starManager.getStarAmount()) {
+			console.log("success");
+		}
 	}
 }
 
