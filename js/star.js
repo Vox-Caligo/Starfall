@@ -1,21 +1,33 @@
 var game;
 
-
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
+
+// layer variables
+var starLayer;
 
 // movement variables
 var movingStar = true;
 var xVelocity;
 var yVelocity;
 
+// active variables
+var minTimeActive = 1;
+var maxTimeActive = 3;
+
 function Star(currentGame, layer) {
 	game = currentGame;
+	starLayer = layer;
+	starCreation();
+}
+
+// creates a star
+function starCreation() {
 	var starImage;
 	var starColor;
 	
 	starColor = starChoices[game.rnd.integerInRange(0, starChoices.length)];
-	console.log('Test: ' + starColor);
-	starImage = layer.create(200, 200, starColor);
+	
+	starImage = starLayer.create(200, 200, starColor);
 	starImage.anchor.setTo(.5, .5);
 	
 	var starScale = game.rnd.integerInRange(50, 100) / 100;
@@ -28,21 +40,22 @@ function Star(currentGame, layer) {
 	}
 	
 	var removeStar = function() {
-		console.log('Poof ' + starColor);
 		starImage.visible = false;
 	}
-	game.time.events.add(Phaser.Timer.SECOND * 3, removeStar, this);
-}
-
-Star.prototype.generateNewStar = function () {
-	 
+	game.time.events.add(Phaser.Timer.SECOND * ((Math.random() * (maxTimeActive - minTimeActive)) + minTimeActive), removeStar, this);
 }
 
 function starMovement() {
 	
 }
 
+Star.prototype.generateNewStar = function () {
+	starCreation();
+}
 
+Star.prototype.generateNewStar = function () {
+	starCreation();
+}
 
 /*
 - timer for amount of time the star is shown

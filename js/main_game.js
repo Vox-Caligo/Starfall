@@ -40,7 +40,6 @@ function preload() {
 
 function create() {
 	var background = backgroundLayer.create(0, 0, 'background');
-	//.add.sprite(0, 0, 'background');
 	background.height = game.height;
 	background.width = game.width;
 	game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;

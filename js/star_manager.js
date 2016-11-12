@@ -9,17 +9,18 @@ var starsShowing;
 
 function StarManager(currentGame, starLayer) {
 	game = currentGame;
-	generateStars(starLayer);
-}
-
-function generateStars(starLayer) {
-	//var newStar;
 	
+	// used to create the first group of stars
 	for(var i = 0; i < starAmount; i++) {
 		var newStar = new Star(game, starLayer);
-		//newStar.generateNewStar();
 		stars.push(newStar);
 	}
+}
+
+//
+function generateStars(starLayer) {
+	
+
 }
 
 StarManager.prototype.spawnStars = function () {
