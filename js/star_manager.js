@@ -2,7 +2,8 @@ var game;
 
 // star variables
 var stars = new Array();
-var starAmount = 13;
+var starAmount = 3;
+var starsVisible = 0;
 
 // color variables
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
@@ -12,21 +13,27 @@ var activeStars;
 var starsShowing;
 var starLayer;
 
+// timer variables
+var minSpawnDelay = .5;
+var maxSpawnDelay = 3;
+var minTimeActive = 2;
+var maxTimeActive = 7;
+
 function StarManager(currentGame, givenStarLayer) {
 	game = currentGame;
 	starLayer = givenStarLayer;
 	
 	// used to create the first group of stars
+	var starTimeStart = 0;
+	starsShowing = true;
+	
 	for(var i = 0; i < starAmount; i++) {
+		starTimeStart += Phaser.Timer.SECOND * ((Math.random() * (maxSpawnDelay - minSpawnDelay)) + minSpawnDelay);
 		var starColor = starChoices[game.rnd.integerInRange(0, starChoices.length - 1)];
-		var newStar = new Star(game, starLayer, starColor);
+		var newStar = new Star(game, this, starLayer, starColor, starTimeStart, minTimeActive, maxTimeActive);
 		neededColors.push(starColor);
 		stars.push(newStar);
 	}
-}
-
-function starRemoval(starNumber) {
-	starLayer.remove(stars[starNumber]);
 }
 
 StarManager.prototype.spawnStars = function () {
@@ -37,6 +44,10 @@ StarManager.prototype.spawnStars = function () {
 }
 
 StarManager.prototype.areStarsShowing = function () {
+	if(starsVisible == starAmount) {
+		starsVisible = 0;
+		starsShowing = false;
+	}
 	return starsShowing;
 }
 
@@ -46,6 +57,10 @@ StarManager.prototype.getNeededColors = function () {
 
 StarManager.prototype.getStarAmount = function () {
 	return starAmount;
+}
+
+StarManager.prototype.increaseVisibleCount = function () {
+	starsVisible++;
 }
 
 /*

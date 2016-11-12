@@ -70,7 +70,7 @@ function createButtons() {
 	for(var i = 0; i < buttons.length; i++) {
 		buttons[i].height = buttonHeight;
 		buttons[i].width = buttonWidth;
-		//buttons[i].visible = false;
+		buttons[i].visible = false;
 	}
 }
 
@@ -98,8 +98,16 @@ function gofull() {
     }
 }
 
+function buttonVisibility(isVisible) {
+	for(var i = 0; i < buttons.length; i++) {
+		buttons[i].visible = isVisible;
+	}
+}
+
 function update() {
-	
+	if(!starManager.areStarsShowing()) {
+		buttonVisibility(true);
+	}
 	/*
 	- color buttons (blue, green, yellow, red)
 		- attach function that updates star manager when visible
