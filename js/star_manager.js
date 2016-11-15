@@ -7,7 +7,7 @@ var starsVisible = 0;
 
 // color variables
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
-var neededColors = new Array();
+var neededColors;
 
 var activeStars;
 var starsShowing;
@@ -22,6 +22,7 @@ var maxTimeActive = 7;
 function StarManager(currentGame, givenStarLayer) {
 	game = currentGame;
 	starLayer = givenStarLayer;
+	neededColors = new Array();
 	
 	// used to create the first group of stars
 	var starTimeStart = 0;
@@ -32,6 +33,7 @@ function StarManager(currentGame, givenStarLayer) {
 		var starColor = starChoices[game.rnd.integerInRange(0, starChoices.length - 1)];
 		var newStar = new Star(game, this, starLayer, starColor, starTimeStart, minTimeActive, maxTimeActive);
 		neededColors.push(starColor);
+		console.log("Star Color Added: " + starColor);
 		stars.push(newStar);
 	}
 }

@@ -27,24 +27,20 @@ function Star(currentGame, manager, layer, starColor, starTimeStart, minActive, 
 
 // creates a star
 function starCreation(starColor, minActive, maxActive) {
-	var starImage;
-	var starColor;
-	
-	starColor = starChoices[game.rnd.integerInRange(0, starChoices.length)];
-	
-	starImage = starLayer.create(200, 200, starColor);
+	var starImage = starLayer.create(200, 200, starColor);
 	starImage.anchor.setTo(.5, .5);
 	
 	var starScale = game.rnd.integerInRange(50, 100) / 100;
 	starImage.scale.setTo(starScale, starScale);
-	starImage.x = game.rnd.integerInRange(0, 500);
+	starImage.x = game.rnd.integerInRange(0, 500) + 200;
 	starImage.y = 100;
 
-	
+	// used to move the star across the screen
 	if(movingStar) {
 		game.time.events.add(0, starMovement, this, starImage);
 	}
 	
+	// hides the star from the screen
 	var removeStar = function() {
 		starImage.visible = false;
 		starManager.increaseVisibleCount();
