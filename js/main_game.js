@@ -80,12 +80,18 @@ function selectedButton(button) {
 	
 	if(chosenColor != neededColors[currentStar]) {
 		console.log("Incorrect Choice - Was looking for " + neededColors[currentStar]);
+		
+		for(var i = 0; i < neededColors.length; i++) {
+			console.log("Star #" + i + ": " + neededColors[i]);
+			// colors are being generated wrong
+		}
 		// end game
 	} else {
 		currentStar++;
 		
 		if(currentStar == starManager.getStarAmount()) {
 			console.log("success");
+			//starManager.nextRound();
 		}
 	}
 }
