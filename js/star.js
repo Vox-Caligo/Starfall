@@ -5,10 +5,6 @@ var starLayer;
 
 var starManager;
 
-// movement variables
-var movingStar = true;
-var xVelocity;
-var yVelocity;
 
 // timer variables
 var spawnTime;
@@ -34,26 +30,29 @@ function starCreation(starColor, minActive, maxActive) {
 	starImage.scale.setTo(starScale, starScale);
 	starImage.x = game.rnd.integerInRange(0, 500) + 200;
 	starImage.y = 100;
-
-	// used to move the star across the screen
-	if(movingStar) {
-		game.time.events.add(0, starMovement, this, starImage);
+	
+	var starMovement = [0, 0];
+	
+	if(Math.floor(Math.random() * 100) > 0) {//75) {
+		var xVelocity = Math.random() * 20 - 10;
+		var yVelocity = Math.random() * 20 - 10;
+		starMovement = [xVelocity, yVelocity];
 	}
+	// star movement
+	var starMover = setInterval(function() {
+		starImage.x += xVelocity;
+		starImage.y += yVelocity;
+	}, 50);
+	
+	starMovements.push(starMovement);
 	
 	// hides the star from the screen
 	var removeStar = function() {
 		starImage.visible = false;
 		starManager.increaseVisibleCount();
+		window.clearInterval(starMover);
 	}
 	game.time.events.add(Phaser.Timer.SECOND * (Math.random() * (maxTimeActive - minTimeActive)) + minTimeActive, removeStar, this);
-}
-
-function starMovement() {
-	
-}
-
-Star.prototype.getStarColor = function () {
-	 return starColor;
 }
 
 Star.prototype.generateNewStar = function () {
@@ -64,7 +63,6 @@ Star.prototype.generateNewStar = function () {
 - timer for amount of time the star is shown
 	- Star(color, widthMax, heightMax)
 		- luminosity
-		- size
 		- location
 			- random of widthMax + heightMax
 */

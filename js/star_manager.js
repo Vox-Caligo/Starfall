@@ -8,6 +8,7 @@ var starsVisible = 0;
 // color variables
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
 var neededColors;
+var starMovements;
 
 var activeStars;
 var starsShowing;
@@ -19,30 +20,33 @@ var maxSpawnDelay = 3;
 var minTimeActive = 2;
 var maxTimeActive = 7;
 
+// stars active time
+var starTimeStart = 0;
+
 function StarManager(currentGame, givenStarLayer) {
 	game = currentGame;
 	starLayer = givenStarLayer;
 	neededColors = new Array();
+	starMovements = new Array();
 	
 	// used to create the first group of stars
-	var starTimeStart = 0;
 	starsShowing = true;
 	
 	for(var i = 0; i < starAmount; i++) {
-		starTimeStart += Phaser.Timer.SECOND * ((Math.random() * (maxSpawnDelay - minSpawnDelay)) + minSpawnDelay);
-		var starColor = starChoices[game.rnd.integerInRange(0, starChoices.length - 1)];
-		var newStar = new Star(game, this, starLayer, starColor, starTimeStart, minTimeActive, maxTimeActive);
-		neededColors.push(starColor);
-		console.log("Star Color Added: " + starColor);
-		stars.push(newStar);
+		createNewStar();
 	}
 }
 
-StarManager.prototype.spawnStars = function () {
-	/*
-	- neededColors.push(color)
-	- create star
-	*/
+function createNewStar() {
+	starTimeStart += Phaser.Timer.SECOND * ((Math.random() * (maxSpawnDelay - minSpawnDelay)) + minSpawnDelay);
+	var starColor = starChoices[game.rnd.integerInRange(0, starChoices.length - 1)];
+	var newStar = new Star(game, this, starLayer, starColor, starTimeStart, minTimeActive, maxTimeActive);
+	neededColors.push(starColor);
+	stars.push(newStar);
+}
+
+StarManager.prototype.addStar = function () {
+	createNewStar();
 }
 
 StarManager.prototype.areStarsShowing = function () {
@@ -63,6 +67,13 @@ StarManager.prototype.getStarAmount = function () {
 
 StarManager.prototype.increaseVisibleCount = function () {
 	starsVisible++;
+}
+
+// resets all stars for the next round
+StarManager.prototype.nextRound = function() {
+	for(var i = 0; i < stars.length; i++) {
+		stars[i].generateNewStar();
+	}
 }
 
 /*
