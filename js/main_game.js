@@ -91,7 +91,7 @@ function selectedButton(button) {
 		
 		if(currentStar == starManager.getStarAmount()) {
 			console.log("success");
-			//starManager.nextRound();
+			starManager.nextRound();
 		}
 	}
 }
