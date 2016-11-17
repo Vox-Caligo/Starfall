@@ -3,8 +3,8 @@ var game;
 // layer variables
 var starLayer;
 
+// parent manager
 var starManager;
-
 
 // timer variables
 var spawnTime;
@@ -26,37 +26,52 @@ function starCreation(starColor, minActive, maxActive) {
 	var starImage = starLayer.create(200, 200, starColor);
 	starImage.anchor.setTo(.5, .5);
 	
+	// determines star size and location
 	var starScale = game.rnd.integerInRange(50, 100) / 100;
 	starImage.scale.setTo(starScale, starScale);
 	starImage.x = game.rnd.integerInRange(0, 500) + 200;
 	starImage.y = 100;
-	
-	var starMovement = [0, 0];
-	
-	if(Math.floor(Math.random() * 100) > 0) {//75) {
-		var xVelocity = Math.random() * 20 - 10;
-		var yVelocity = Math.random() * 20 - 10;
-		starMovement = [xVelocity, yVelocity];
+
+	// determines star movement
+	var starMovement = starMovementCalculation();
+	var isMoving = (starMovement[0] > 0 || starMovement[1] > 0);
+
+	if(isMoving) {
+		var starMover = setInterval(function() {
+			starImage.x += starMovement[0];
+			starImage.y += starMovement[1];
+		}, 50);
 	}
-	// star movement
-	var starMover = setInterval(function() {
-		starImage.x += xVelocity;
-		starImage.y += yVelocity;
-	}, 50);
-	
-	starMovements.push(starMovement);
 	
 	// hides the star from the screen
 	var removeStar = function() {
 		starImage.visible = false;
 		starManager.increaseVisibleCount();
-		window.clearInterval(starMover);
+		
+		if(isMoving) {
+			window.clearInterval(starMover);
+		}
 	}
 	game.time.events.add(Phaser.Timer.SECOND * (Math.random() * (maxTimeActive - minTimeActive)) + minTimeActive, removeStar, this);
 }
 
-Star.prototype.generateNewStar = function () {
-	starCreation();
+// calculates if and how a star will move
+function starMovementCalculation() {	
+	if(Math.floor(Math.random() * 100) > 0) {//75) {
+		var xVelocity = Math.random() * 20 - 10;
+		var yVelocity = Math.random() * 20 - 10;
+		return [xVelocity, yVelocity];
+	}
+	
+	return [0, 0]
+}
+
+Star.prototype.generateNewStar = function (starColor, starTimeStart, minActive, maxActive) {
+	var creation = function() {
+		starCreation(starColor, minActive, maxActive);
+	}
+	
+	game.time.events.add(starTimeStart, creation, this);
 }
 
 /*

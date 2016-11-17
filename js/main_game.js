@@ -16,6 +16,7 @@ var buttons = new Array();
 var starManager;
 var currentStar = 0;
 
+// loads all needed images
 function preload() {
 	// add visual layers
 	backgroundLayer = game.add.group();
@@ -36,6 +37,7 @@ function preload() {
 	game.load.image('button_blue', 'assets/buttons/button_blue.png');
 }
 
+// creates the game
 function create() {
 	var background = backgroundLayer.create(0, 0, 'background');
 	background.height = game.height;
@@ -46,6 +48,7 @@ function create() {
 	createButtons();
 }
 
+// creates all of the buttons for play
 function createButtons() {
 	var buttonHeight = 50;
 	var buttonWidth = game.width * .25;
@@ -74,6 +77,7 @@ function createButtons() {
 	}
 }
 
+// determines if the selected button was the correct color 
 function selectedButton(button) {
 	var chosenColor = button.name;
 	var neededColors = starManager.getNeededColors();
@@ -81,43 +85,35 @@ function selectedButton(button) {
 	if(chosenColor != neededColors[currentStar]) {
 		console.log("Incorrect Choice - Was looking for " + neededColors[currentStar]);
 		
-		for(var i = 0; i < neededColors.length; i++) {
-			console.log("Star #" + i + ": " + neededColors[i]);
-			// colors are being generated wrong
-		}
 		// end game
 	} else {
 		currentStar++;
 		
+		// detects if the user hits enough stars to get to the next round
 		if(currentStar == starManager.getStarAmount()) {
-			console.log("success");
+			currentStar = 0;
 			starManager.nextRound();
 		}
 	}
 }
 
-function gofull() {
-    if (game.scale.isFullScreen) {
-        game.scale.stopFullScreen();
-    } else {
-        game.scale.startFullScreen(false);
-    }
-}
-
+// changes button visibility
 function buttonVisibility(isVisible) {
 	for(var i = 0; i < buttons.length; i++) {
 		buttons[i].visible = isVisible;
 	}
 }
 
+// what to do after the game ends
+function endGame() {
+	
+}
+
 function update() {
+	// shows buttons when stars are not going to be shown adn vice versa
 	if(!starManager.areStarsShowing()) {
 		buttonVisibility(true);
+	} else {
+		buttonVisibility(false);
 	}
-	/*
-	- color buttons (blue, green, yellow, red)
-		- attach function that updates star manager when visible
-	- updating
-		- hide buttons when star manager is playing
-	*/
 }	

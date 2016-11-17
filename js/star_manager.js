@@ -3,16 +3,13 @@ var game;
 // star variables
 var stars = new Array();
 var starAmount = 3;
+var startingStarAmount = 3;
 var starsVisible = 0;
+var starLayer;
 
 // color variables
 var starChoices = ['star_red', 'star_yellow', 'star_green', 'star_blue'];
 var neededColors;
-var starMovements;
-
-var activeStars;
-var starsShowing;
-var starLayer;
 
 // timer variables
 var minSpawnDelay = .5;
@@ -27,14 +24,9 @@ function StarManager(currentGame, givenStarLayer) {
 	game = currentGame;
 	starLayer = givenStarLayer;
 	neededColors = new Array();
-	starMovements = new Array();
 	
 	// used to create the first group of stars
-	starsShowing = true;
-	
-	for(var i = 0; i < starAmount; i++) {
-		createNewStar();
-	}
+	start();
 }
 
 function createNewStar() {
@@ -45,16 +37,42 @@ function createNewStar() {
 	stars.push(newStar);
 }
 
-StarManager.prototype.addStar = function () {
-	createNewStar();
+function start() {
+	for(var i = 0; i < starAmount; i++) {
+		createNewStar();
+	}
+}
+
+function reset(resetStarCount) {
+	starTimeStart = 0
+	starsVisible = 0;
+	neededColors = new Array();
+	
+	// used for restarting the game as opposed to the next round
+	if(resetStarCount) {
+		starAmount = startingStarAmount;
+	}
 }
 
 StarManager.prototype.areStarsShowing = function () {
-	if(starsVisible == starAmount) {
+	if(starsVisible >= starAmount) {
 		starsVisible = 0;
-		starsShowing = false;
+		return false;
 	}
-	return starsShowing;
+	return true;
+}
+
+// resets all stars for the next round
+StarManager.prototype.nextRound = function() {
+	reset();
+	
+	for(var i = 0; i < stars.length; i++) {
+		stars[i].generateNewStar();
+	}
+}
+
+StarManager.prototype.addStar = function () {
+	createNewStar();
 }
 
 StarManager.prototype.getNeededColors = function () {	
@@ -67,13 +85,6 @@ StarManager.prototype.getStarAmount = function () {
 
 StarManager.prototype.increaseVisibleCount = function () {
 	starsVisible++;
-}
-
-// resets all stars for the next round
-StarManager.prototype.nextRound = function() {
-	for(var i = 0; i < stars.length; i++) {
-		stars[i].generateNewStar();
-	}
 }
 
 /*
