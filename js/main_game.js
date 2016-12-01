@@ -1,4 +1,4 @@
-var game = new Phaser.Game(window.screen.width, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(window.screen.width, 500, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 // spawn floor
 var spawnFloor = screen.height - (.3 * screen.height);
@@ -36,7 +36,8 @@ function preload() {
 	game.load.image('button_green', 'assets/buttons/button_green.png');
 	game.load.image('button_blue', 'assets/buttons/button_blue.png');
 	
-	this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+	//this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+	console.log("Cmon Man");
 }
 
 // creates the game
@@ -44,7 +45,6 @@ function create() {
 	var background = backgroundLayer.create(0, 0, 'background');
 	background.height = game.height;
 	background.width = game.width;
-	game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	
 	starManager = new StarManager(game, foregroundLayer);
 	createButtons();
@@ -93,7 +93,6 @@ function selectedButton(button) {
 		
 		// detects if the user hits enough stars to get to the next round
 		if(currentStar == starManager.getStarAmount()) {
-			console.log("success");
 			currentStar = 0;
 			starManager.nextRound();
 		}
@@ -114,6 +113,7 @@ function endGame() {
 
 function update() {
 	// shows buttons when stars are not going to be shown adn vice versa
+	console.log("Visible Stars: " + starManager.areStarsShowing());
 	if(!starManager.areStarsShowing()) {
 		buttonVisibility(true);
 	} else {

@@ -55,11 +55,7 @@ function reset(resetStarCount) {
 }
 
 StarManager.prototype.areStarsShowing = function () {
-	if(starsVisible >= starAmount) {
-		starsVisible = 0;
-		return false;
-	}
-	return true;
+	return starsVisible < starAmount;
 }
 
 // resets all stars for the next round
@@ -88,7 +84,6 @@ StarManager.prototype.increaseVisibleCount = function () {
 }
 
 StarManager.prototype.nextRound = function () {
-	console.log("Next Round");
 	starsVisible = 0;
 	starsShowing = true;
 	
