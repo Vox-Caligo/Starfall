@@ -35,6 +35,8 @@ function preload() {
 	game.load.image('button_yellow', 'assets/buttons/button_yellow.png');
 	game.load.image('button_green', 'assets/buttons/button_green.png');
 	game.load.image('button_blue', 'assets/buttons/button_blue.png');
+	
+	this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 }
 
 // creates the game
@@ -91,6 +93,7 @@ function selectedButton(button) {
 		
 		// detects if the user hits enough stars to get to the next round
 		if(currentStar == starManager.getStarAmount()) {
+			console.log("success");
 			currentStar = 0;
 			starManager.nextRound();
 		}
