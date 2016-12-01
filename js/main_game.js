@@ -34,6 +34,8 @@ function preload() {
 	game.load.image('button_yellow', 'assets/buttons/button_yellow.png');
 	game.load.image('button_green', 'assets/buttons/button_green.png');
 	game.load.image('button_blue', 'assets/buttons/button_blue.png');
+	
+	this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 }
 
 function create() {
@@ -91,7 +93,7 @@ function selectedButton(button) {
 		
 		if(currentStar == starManager.getStarAmount()) {
 			console.log("success");
-			//starManager.nextRound();
+			starManager.nextRound();
 		}
 	}
 }
@@ -113,6 +115,8 @@ function buttonVisibility(isVisible) {
 function update() {
 	if(!starManager.areStarsShowing()) {
 		buttonVisibility(true);
+	} else {
+		buttonVisibility(false);
 	}
 	/*
 	- color buttons (blue, green, yellow, red)

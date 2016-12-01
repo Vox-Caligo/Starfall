@@ -65,6 +65,19 @@ StarManager.prototype.increaseVisibleCount = function () {
 	starsVisible++;
 }
 
+StarManager.prototype.nextRound = function () {
+	console.log("Next Round");
+	starsVisible = 0;
+	starsShowing = true;
+	
+	var starTimeStart = 0;
+	starsShowing = true;
+	
+	for(var i = 0; i < starAmount; i++) {
+		stars[i].generateNewStar();
+	}
+}
+
 /*
 - round
 - algorithm
